@@ -3,19 +3,19 @@ version: "3"
 services:
 
   loki:
+    command: -config.file=/etc/loki/config.yaml
     image: grafana/loki:1.5.0
     ports:
       - "3100:3100"
     volumes:
       - ./loki/config.yaml:/etc/loki/config.yaml
-    command: -config.file=/etc/loki/config.yaml
 
   promtail:
+    command: ["-config.file=/etc/promtail/config.yaml"]
     image: grafana/promtail:1.5.0
     volumes:
-      # - ./log:/var/log
       - ./promtail/config.yaml:/etc/promtail/config.yaml
-    command: -config.file=/etc/promtail/config.yaml
+      - ./promtail/test.log:/tmp/test.log
 
   grafana:
     image: grafana/grafana:7.0.5
